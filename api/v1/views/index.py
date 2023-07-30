@@ -27,3 +27,6 @@ def view_stats():
         'reviews': storage.count(Review),
         'states': storage.count(State),
         'user': storage.count(User)})
+
+if __name__ == '__main__':
+    pass
