@@ -16,6 +16,7 @@ def view_states():
     state_list = [state.to_dict() for state in states]
     return jsonify(state_list)
 
+
 @app_views.route('/states/<state_id>', methods=['GET'])
 def view_states_by_id(state_id):
     """with state_id retrieves a State object"""
@@ -24,6 +25,7 @@ def view_states_by_id(state_id):
         if state.id == state_id:
             return jsonify(state.to_dict())
     abort(404)
+
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state_by_id(state_id):
@@ -36,6 +38,7 @@ def delete_state_by_id(state_id):
             return jsonify({})
     abort(404)
 
+
 @app_views.route('/states/', strict_slashes=True, methods=['POST'])
 def create_state():
     """Creates a State"""
@@ -44,9 +47,10 @@ def create_state():
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     new_state = State(**request.get_json())
-      # Save the new State instance to the storage
-    
+    # Save the new State instance to the storage
+
     return jsonify(new_state.to_dict()), 201
+
 
 @app_views.route('/states/<string:state_id>', methods=['PUT'],
                  strict_slashes=False)
