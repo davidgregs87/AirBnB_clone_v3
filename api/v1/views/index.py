@@ -15,7 +15,7 @@ hbnbText = {
 
 @app_views.route('/status', strict_slashes=False)
 def hbnbStatus():
-    """hbnbStatus"""
+    """hbnbStatus OK"""
     return jsonify({"status": "OK"})
 
 
