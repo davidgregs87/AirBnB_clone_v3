@@ -27,7 +27,8 @@ def view_states_by_id(state_id):
     abort(404)
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/states/<state_id>',
+                 strict_slashes=False, methods=['DELETE'])
 def delete_state_by_id(state_id):
     """Delete a state instance by it's id"""
     states = storage.all(State).values()
