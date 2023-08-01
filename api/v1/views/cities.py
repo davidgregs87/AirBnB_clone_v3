@@ -16,7 +16,7 @@ def view_cities_by_state_id(state_id):
     city_list = []
     for city in cities:
         if city.state_id == state_id:
-            city_list.append(city.to_dict()) 
+            city_list.append(city.to_dict())
             return jsonify(city_list)
     abort(404)
 
