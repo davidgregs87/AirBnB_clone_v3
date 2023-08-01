@@ -6,8 +6,6 @@ from api.v1.views import app_views
 from models.state import State
 from models import storage
 
-classes = {"State": State}
-
 
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
 def view_states():
