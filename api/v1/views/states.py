@@ -30,13 +30,12 @@ def view_states_by_id(state_id):
                  strict_slashes=False, methods=['DELETE'])
 def delete_state_by_id(state_id):
     """Delete a state instance by it's id"""
-    states = storage.all(State).values()
-    for state in states:
-        if state.id == state_id:
-            storage.delete(state)
-            storage.save()
-            return jsonify({}), 200
-    abort(404)
+    state = storage.get("State", state_id)
+    if state is None:
+        abort(404)
+    state.delete()
+    storage.save()
+    return (jsonify({}))
 
 
 @app_views.route('/states/', strict_slashes=True, methods=['POST'])
