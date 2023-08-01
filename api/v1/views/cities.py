@@ -34,13 +34,13 @@ def view_city(city_id):
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['DELETE'])
 def delete_city(city_id):
     """Delete a city instance based on it's id"""
-    cities = storage.all(City).values()
-    for city in cities:
-        if city.id == city_id:
-            storage.delete(city)
-            storage.save()
-            return jsonify({})
-    abort(404)
+    city = storage.get(City, city_id)
+    if city:
+        storage.delete(city)
+        storage.save()
+        return jsonify({})
+    else:
+        abort(404)
 
 
 @app_views.route('/states/<state_id>/cities',
