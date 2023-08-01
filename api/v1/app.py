@@ -7,7 +7,7 @@ from os import getenv
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r'/api/v1/*': {'origins': '*'}})
+CORS(app, resources={r'/api/v1/*': {'origins': '0.0.0.0'}})
 
 # Register blueprint
 app.register_blueprint(app_views)
