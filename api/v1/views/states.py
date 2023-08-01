@@ -19,10 +19,11 @@ def view_states():
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def view_states_by_id(state_id):
     """with state_id retrieves a State object"""
-    state = storage.get("State", state_id)
-    if state is None:
-        abort(404)
-    return jsonify(state.to_dict())
+    states = storage.all(State).values()
+    for state in states:
+        if state.id == state_id:
+            return jsonify(state.to_dict())
+    abort(404)
 
 
 @app_views.route('/states/<state_id>',
@@ -35,8 +36,7 @@ def delete_state_by_id(state_id):
             storage.delete(state)
             storage.save()
             return jsonify({}), 200
-    else:
-        abort(404)
+    abort(404)
 
 
 @app_views.route('/states/', strict_slashes=True, methods=['POST'])
