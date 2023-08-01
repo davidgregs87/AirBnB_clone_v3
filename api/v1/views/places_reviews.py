@@ -18,8 +18,7 @@ def view_review_by_place_id(place_id):
         if review.place_id == place_id:
             review_list.append(review.to_dict())
             return jsonify(review_list)
-        else:
-            abort(404)
+    abort(404)
 
 
 @app_views.route('/reviews/<review_id>', strict_slashes=False, methods=['GET'])
@@ -29,8 +28,7 @@ def view_review_by_review_id(review_id):
     for review in reviews:
         if review.id == review_id:
             return jsonify(review.to_dict())
-        else:
-            abort(404)
+    abort(404)
 
 
 @app_views.route('/reviews/<review_id>',
@@ -43,8 +41,7 @@ def delete_review_by_review_id(review_id):
             storage.delete(review)
             storage.save()
             return jsonify({})
-        else:
-            abort(404)
+    abort(404)
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -63,8 +60,7 @@ def create_review_by_place_id(place_id):
             unpack = Review(**request.get_json())
             unpack.save()
             return jsonify(unpack.to_dict()), 201
-        else:
-            abort(404)
+    abort(404)
 
 
 @app_views.route('/reviews/<review_id>', strict_slashes=False, methods=['PUT'])
@@ -80,5 +76,5 @@ def update_review_by_review_id(review_id):
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(review, key, value)
                     review.save()
-                return jsonify(review.to_dict()), 200
+                    return jsonify(review.to_dict()), 200
     abort(404)
