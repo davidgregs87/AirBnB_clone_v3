@@ -12,13 +12,13 @@ from flask import jsonify, abort, request, make_response
                  strict_slashes=False, methods=['GET'])
 def view_cities_by_state_id(state_id):
     """Returns the dictionary of all city instances"""
-    cities = storage.all(City).values()
+    city = storage.get(City, state_id)
     city_list = []
-    for city in cities:
-        if city.state_id == state_id:
-            city_list.append(city.to_dict())
-            return jsonify(city_list)
-    abort(404)
+    if city:
+        city_list.append(city.to_dict())
+        return jsonify(city_list)
+    else:
+        abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
