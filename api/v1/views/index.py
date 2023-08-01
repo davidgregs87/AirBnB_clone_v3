@@ -11,7 +11,6 @@ def view_status():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route('/stats')
 @app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def view_stats():
     """Returns every class and count number of instances"""
