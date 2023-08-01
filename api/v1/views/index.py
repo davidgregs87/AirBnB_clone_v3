@@ -4,13 +4,21 @@ from api.v1.views import app_views
 from flask import jsonify
 
 
+<<<<<<< HEAD
 @app_views.route('/status')
+=======
+@app_views.route('/status', strict_slashes=False, methods=['GET'])
+>>>>>>> 563b1cddc2156f51d49723f63428d9ae0ef4041e
 def view_status():
     """Return the status OK"""
     return jsonify({'status': 'OK'})
 
 
+<<<<<<< HEAD
 @app_views.route('/stats')
+=======
+@app_views.route('/stats', strict_slashes=False, methods=['GET'])
+>>>>>>> 563b1cddc2156f51d49723f63428d9ae0ef4041e
 def view_stats():
     """Returns every class and count number of instances"""
     from models import storage
