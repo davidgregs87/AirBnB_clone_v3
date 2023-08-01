@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""A module that takes care of City class
+of the REST API"""
 from api.v1.views import app_views
 from models import storage
 from models.city import City

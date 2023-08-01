@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """a MODULE about building REST API
-from the class AMENITY"""
+from the class PLACE"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
