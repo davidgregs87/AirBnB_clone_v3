@@ -12,10 +12,13 @@ from flask import jsonify, abort, request, make_response
                  strict_slashes=False, methods=['GET'])
 def view_cities_by_state_id(state_id):
     """Returns the dictionary of all city instances"""
-    city = storage.get("City", state_id)
-    if city is None:
-        abort(404)
-    return jsonify(city.to_dict())
+    cities = storage.all(City).values()
+    city_list = []
+    for city in cities:
+        if city.state_id == state_id:
+            city_list.append(city.to_dict()) 
+            return jsonify(city_list)
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
@@ -31,12 +34,14 @@ def view_city(city_id):
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['DELETE'])
 def delete_city(city_id):
     """Delete a city instance based on it's id"""
-    state = storage.get("State", city_id)
-    if state is None:
-        abort(404)
-    state.delete()
-    storage.save()
-    return (jsonify({}))
+    cities = storage.all(City).values()
+    for city in cities:
+        if city.id == city_id:
+            storage.delete(city)
+            storage.save()
+            storage.close()
+            return jsonify({})
+    abort(404)
 
 
 @app_views.route('/states/<state_id>/cities',
