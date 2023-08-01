@@ -24,11 +24,11 @@ def view_cities_by_state_id(state_id):
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
 def view_city(city_id):
     """Retrieve a city based on it's id"""
-    cities = storage.all(City).values()
-    for city in cities:
-        if city_id == city.id:
-            return jsonify(city.to_dict())
-    abort(404)
+    city = storage.get(City, city_id)
+    if city:
+        return jsonify(city.to_dict())
+    else:
+        abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['DELETE'])
@@ -39,7 +39,6 @@ def delete_city(city_id):
         if city.id == city_id:
             storage.delete(city)
             storage.save()
-            storage.close()
             return jsonify({})
     abort(404)
 
