@@ -9,7 +9,7 @@ from models import storage
 classes = {"State": State}
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states', strict_slashes=False, methods=['GET'])
 def view_states():
     """List all states"""
     states = storage.all(State).values()
@@ -17,7 +17,7 @@ def view_states():
     return jsonify(state_list)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def view_states_by_id(state_id):
     """with state_id retrieves a State object"""
     states = storage.all(State).values()
@@ -27,16 +27,17 @@ def view_states_by_id(state_id):
     abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['DELETE'])
 def delete_state_by_id(state_id):
     """Delete a state instance by it's id"""
-    state = storage.get(State, state_id)
-    if state:
-        storage.delete(state)
-        storage.save()
-        return jsonify({}), 200
+    states = storage.all(State).values()
+    for state in states:
+        if state.id == state_id:
+            storage.delete(state)
+            storage.save()
+            return jsonify({}), 200
     else:
-        abort(400)
+        abort(404)
 
 
 @app_views.route('/states/', strict_slashes=True, methods=['POST'])
@@ -60,9 +61,11 @@ def put_state(state_id):
         abort(400, 'Not a JSON')
     states = storage.all(State).values()
     for state in states:
-        if states.id == state_id:
-            update_state = State(**request.get_json())
-            update_state.save()
-            return jsonify(update_state.to_dict()), 200
-        else:
-            abort(404)
+        if state.id == state_id:
+            data = request.get_json()
+            for key, value in data.items():
+                if key not in ['id', 'created_at', 'updated_at']:
+                    setattr(state, key, value)
+                    state.save()
+                return jsonify(state.to_dict()), 200
+    abort(404)
