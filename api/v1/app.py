@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""A simple REST API application to print status OK"""
+"""A simple REST API application to print status"""
 from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
